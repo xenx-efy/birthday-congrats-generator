@@ -1,3 +1,3 @@
 # Birthday Congrats Generator
 
-Generates congrats example and  put it into clipboard
+Generates birthday congrats example and put it into clipboard
