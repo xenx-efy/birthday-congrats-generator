@@ -1,40 +1,120 @@
 from abc import ABC, abstractmethod
+from typing import Any
 
 
-class GreetingsData:
-    @staticmethod
+class Congratulation:
+    def __init__(self) -> None:
+        self.parts = []
+
+    def add(self, part: Any) -> None:
+        self.parts.append(part)
+
+    def list_parts(self) -> None:
+        print(f"{''.join(self.parts)}")
+
+
+class CongratsBuilder(ABC):
+    @property
     @abstractmethod
-    def get_intros() -> list:
+    def congratulation(self) -> None:
+        pass
+
+    def generate_intro(self, generator_config: Any) -> None:
+        pass
+
+    def generate_enumeration(self, generator_config: Any) -> None:
+        pass
+
+    def generate_prose(self, generator_config: Any) -> None:
+        pass
+
+    def generate_ending(self, generator_config: Any) -> None:
+        pass
+
+
+class CongratsBuilderDirector:
+    def __init__(self):
+        self._builder = None
+
+    @property
+    def builder(self) -> CongratsBuilder:
+        return self._builder
+
+    @builder.setter
+    def builder(self, builder: CongratsBuilder) -> None:
+        self._builder = builder
+
+    def build_short_congrats(self):
+        self.builder.generate_intro(None)
+
+    def build_long_congrats(self):
+        pass
+
+
+class BirthdayCongratsBuilder(CongratsBuilder):
+    def __init__(self) -> None:
+        self.reset()
+
+    def reset(self) -> None:
+        self._congratulation = Congratulation()
+
+    @property
+    def congratulation(self) -> Congratulation:
+        return self._congratulation
+
+    def generate_intro(self, generator_config) -> None:
+        pass
+
+    def generate_enumeration(self, generator_config) -> None:
+        pass
+
+    def generate_prose(self, generator_config) -> None:
+        pass
+
+    def generate_ending(self, generator_config) -> None:
+        pass
+
+
+class CongratsData:
+    @staticmethod
+    def get_intros() -> set:
         pass
 
     @staticmethod
-    @abstractmethod
-    def get_enumerations() -> list:
+    def get_enumerations() -> set:
         pass
 
     @staticmethod
-    @abstractmethod
-    def get_poetics() -> list:
+    def get_prose() -> set:
         pass
 
     @staticmethod
-    @abstractmethod
-    def get_endings() -> list:
+    def get_endings() -> set:
         pass
 
 
-class DefaultGreetingsData(GreetingsData):
+class SingletonMeta(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+
+class DefaultCongratsData(CongratsData, metaclass=SingletonMeta):
     @staticmethod
-    def get_intros() -> list:
-        return [
+    def get_intros() -> set:
+        return {
             'Поздравляю!',
-            'С праздником!',
-            'Мои поздравления!'
-        ]
+            'Мои поздравления!',
+            'С праздником!'
+        }
 
     @staticmethod
-    def get_enumerations() -> list:
-        return [
+    def get_enumerations() -> set:
+        return {
             'силы духа',
             'упорства',
             'настойчивости',
@@ -147,11 +227,11 @@ class DefaultGreetingsData(GreetingsData):
             'ярких ощущений',
             'ясной улыбки',
             'незабываемых моментов',
-        ]
+        }
 
     @staticmethod
-    def get_poetics() -> list:
-        return [
+    def get_prose() -> set:
+        return {
             'чтобы каждое начатое дело заканчивалось успешно',
             'Пусть всё, что казалось несбыточным, сбудется, и самое желанное пусть произойдет!',
             'Пусть жизнь наполнится яркими красками, счастливыми моментами и большими купюрами!',
@@ -169,24 +249,45 @@ class DefaultGreetingsData(GreetingsData):
             'Пусть каждый день будет наполнен теплом, и желания сбываются при одной мысли о них.',
             'Больше силы, чувств и смелости, чтобы сбывались даже самые необычные желания!',
             'Пусть гармония и удача станут твоими повседневными спутниками, и все всегда получается легко и непринужденно!',
-        ]
+        }
 
     @staticmethod
-    def get_endings() -> list:
-        return [
-            'Всего доброго.',
+    def get_endings() -> set:
+        return {
+            'Всего доброго!',
             'До свидания.',
-            'Еще раз поздравляю!',
+            'Еще раз поздравляю.',
             'Всех благ!',
-            'Увидимся!',
-        ]
+            'Увидимся.'
+        }
 
 
-class BirthdayGreetingsData(GreetingsData):
+class CongratsDataDecorator(CongratsData):
+    _congrats_data: CongratsData = None
 
-    @staticmethod
-    def get_intros() -> list:
-        return [
+    def __init__(self, congrats_data: CongratsData) -> None:
+        self._congrats_data = congrats_data
+
+    @property
+    def congrats_data(self) -> CongratsData:
+        return self._congrats_data
+
+    def get_intros(self) -> set:
+        return self._congrats_data.get_intros()
+
+    def get_enumerations(self) -> set:
+        return self._congrats_data.get_enumerations()
+
+    def get_prose(self) -> set:
+        return self._congrats_data.get_prose()
+
+    def get_endings(self) -> set:
+        return self._congrats_data.get_endings()
+
+
+class BirthdayCongratsDataDecorator(CongratsDataDecorator):
+    def get_intros(self) -> set:
+        return self._congrats_data.get_intros().union({
             'С днем рождения!',
             'От всей души поздравляю с днем рождения!',
             'Поздравляю с днем рождения!',
@@ -196,44 +297,28 @@ class BirthdayGreetingsData(GreetingsData):
             'Принимай поздравления с днём рождения!',
             'Поздравляю!',
             'Хочу пожелать тебе в этот день всего самого хорошего!',
-        ]
+        })
 
-    @staticmethod
-    def get_enumerations() -> list:
-        return []
+    def get_enumerations(self) -> set:
+        return self._congrats_data.get_enumerations()
 
-    @staticmethod
-    def get_poetics() -> list:
-        return []
+    def get_prose(self) -> set:
+        return self._congrats_data.get_prose()
 
-    @staticmethod
-    def get_endings() -> list:
-        return []
+    def get_endings(self) -> set:
+        return self._congrats_data.get_endings()
 
 
-class GreetingsRepository:
-    def __init__(self, data_type: GreetingsData = None):
-        self.greetings_data = data_type
+class Factory:
+    @abstractmethod
+    def create(self):
+        pass
 
-    def get_intros(self):
-        if not self.greetings_data.get_intros():
-            return DefaultGreetingsData.get_intros()
 
-        return self.greetings_data.get_intros()
+class CongratsDataFactory(Factory):
+    def create(self):
 
-    def get_enumerations(self):
-        if not self.greetings_data.get_enumerations():
-            return DefaultGreetingsData.get_enumerations()
 
-        return self.greetings_data.get_enumerations()
-
-    def get_poetics(self):
-        if not self.greetings_data.get_poetics():
-            return DefaultGreetingsData.get_poetics()
-        return self.greetings_data.get_poetics()
-
-    def get_endings(self):
-        if not self.greetings_data.get_endings():
-            return DefaultGreetingsData.get_endings()
-
-        return self.greetings_data.get_endings()
+# todo add implementation
+class TextGeneratorConfig:
+    pass
