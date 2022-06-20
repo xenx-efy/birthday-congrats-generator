@@ -1,24 +1,16 @@
 from abc import ABC, abstractmethod
 from typing import Any
-import enum
-import random
-
-
-@enum.unique
-class CongratulationType(enum.Enum):
-    DEFAULT_CONGRATS = enum.auto()
-    BIRTHDAY_CONGRATS = enum.auto()
 
 
 class Congratulation:
     def __init__(self) -> None:
         self.parts = []
 
-    def add(self, part: str) -> None:
+    def add(self, part: Any) -> None:
         self.parts.append(part)
 
-    def list_parts(self) -> str:
-        return '\n'.join(self.parts)
+    def list_parts(self) -> None:
+        print(f"{''.join(self.parts)}")
 
 
 class CongratsBuilder(ABC):
@@ -53,19 +45,14 @@ class CongratsBuilderDirector:
         self._builder = builder
 
     def build_short_congrats(self):
-        pass
+        self.builder.generate_intro(None)
 
     def build_long_congrats(self):
-        self.builder.generate_intro(None)
-        self.builder.generate_enumeration(None)
-        self.builder.generate_prose(None)
-        self.builder.generate_ending(None)
+        pass
 
 
 class BirthdayCongratsBuilder(CongratsBuilder):
     def __init__(self) -> None:
-        self._congratulation = None
-        self._data = BirthdayCongratsData()
         self.reset()
 
     def reset(self) -> None:
@@ -76,46 +63,21 @@ class BirthdayCongratsBuilder(CongratsBuilder):
         return self._congratulation
 
     def generate_intro(self, generator_config) -> None:
-        intros = self._data.get_intros()
-        chosen_intro = random.choice([*intros])
-        self._congratulation.add(chosen_intro)
-
-    def generate_enumeration(self, generator_config) -> None:
-        wishes_enumerations = self._data.get_enumerations()
-
-        wishes_intro = random.choice([*self._data.get_wishes_intros()])
-        wishes = ', '.join(random.choices([*wishes_enumerations], k=4))
-
-        self._congratulation.add(f'{wishes_intro} {wishes}.')
-
-    def generate_prose(self, generator_config) -> None:
-        prose_wishes = self._data.get_prose()
-        chosen_prose = random.choice([*prose_wishes])
-        self._congratulation.add(f'{chosen_prose}.')
-
-    def generate_ending(self, generator_config) -> None:
-        endings = self._data.get_endings()
-        chosen_ending = random.choice([*endings])
-        self._congratulation.add(f'{chosen_ending}.')
-
-
-class SingletonMeta(type):
-    _instances = {}
-
-    def __call__(cls, *args, **kwargs):
-        if cls not in cls._instances:
-            instance = super().__call__(*args, **kwargs)
-            cls._instances[cls] = instance
-        return cls._instances[cls]
-
-
-class CongratsData(metaclass=SingletonMeta):
-    @staticmethod
-    def get_intros() -> set:
         pass
 
+    def generate_enumeration(self, generator_config) -> None:
+        pass
+
+    def generate_prose(self, generator_config) -> None:
+        pass
+
+    def generate_ending(self, generator_config) -> None:
+        pass
+
+
+class CongratsData:
     @staticmethod
-    def get_wishes_intros() -> set:
+    def get_intros() -> set:
         pass
 
     @staticmethod
@@ -131,24 +93,23 @@ class CongratsData(metaclass=SingletonMeta):
         pass
 
 
-class DefaultCongratsData(CongratsData):
+class SingletonMeta(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+
+class DefaultCongratsData(CongratsData, metaclass=SingletonMeta):
     @staticmethod
     def get_intros() -> set:
         return {
             'Поздравляю!',
             'Мои поздравления!',
             'С праздником!'
-        }
-
-    @staticmethod
-    def get_wishes_intros() -> set:
-        return {
-            'В этот прекрасный день хочется пожелать',
-            'Пусть',
-            'Пускай жизнь будет полна',
-            'Желаю',
-            'Я желаю тебе',
-            'Желаю тебе',
         }
 
     @staticmethod
@@ -271,41 +232,62 @@ class DefaultCongratsData(CongratsData):
     @staticmethod
     def get_prose() -> set:
         return {
-            'Чтобы каждое начатое дело заканчивалось успешно',
-            'Пусть всё, что казалось несбыточным, сбудется, и самое желанное пусть произойдет',
-            'Пусть жизнь наполнится яркими красками, счастливыми моментами и большими купюрами',
-            'Пусть удача и везение всегда идут с тобой рядом по жизни',
-            'Пусть солнышко сияет в твоих глазах и не покидает тебя в минуты отчаяния',
+            'чтобы каждое начатое дело заканчивалось успешно',
+            'Пусть всё, что казалось несбыточным, сбудется, и самое желанное пусть произойдет!',
+            'Пусть жизнь наполнится яркими красками, счастливыми моментами и большими купюрами!',
+            'Пусть удача и везение всегда идут с тобой рядом по жизни.',
+            'Пусть солнышко сияет в твоих глазах и не покидает тебя в минуты отчаяния!',
             'Пусть тебя окружают только добрые люди, верные и преданные друзья, пусть любовь будет взаимной, а жизнь − '
-            'радостной, несмотря на непогоду в душе и на улице',
-            'Пускай все мечты реализуются легко и просто',
-            'Желаю по жизни идти с солнечным настроением и искренней улыбкой, встречать верных друзей и хороших '
-            'людей на пути',
-            'Жизнь пусть будет наполнена добром и счастьем',
-            'Чтобы сбывались самые заветные мечты, а в доме царили уют и гармония',
-            'Пусть жизнь будет долгой и гладкой, полной ярких и запоминающихся событий',
-            'Пусть жизнь будет наполнена прекрасными моментами',
-            'Пусть не будет места для уныния и печалей',
-            'Пусть каждый день будет наполнен теплом, и желания сбываются при одной мысли о них',
-            'Больше силы, чувств и смелости, чтобы сбывались даже самые необычные желания',
-            'Пусть гармония и удача станут твоими повседневными спутниками, и все всегда получается легко '
-            'и непринужденно',
+            'радостной, несмотря на непогоду в душе и на улице.',
+            'Пускай все мечты реализуются легко и просто.',
+            'Желаю по жизни идти с солнечным настроением и искренней улыбкой, встречать верных друзей и хороших людей на пути.',
+            'Жизнь пусть будет наполнена добром и счастьем!',
+            'Чтобы сбывались самые заветные мечты, а в доме царили уют и гармония.',
+            'Пусть жизнь будет долгой и гладкой, полной ярких и запоминающихся событий!',
+            'Пусть жизнь будет наполнена прекрасными моментами.',
+            'Пусть не будет места для уныния и печалей!',
+            'Пусть каждый день будет наполнен теплом, и желания сбываются при одной мысли о них.',
+            'Больше силы, чувств и смелости, чтобы сбывались даже самые необычные желания!',
+            'Пусть гармония и удача станут твоими повседневными спутниками, и все всегда получается легко и непринужденно!',
         }
 
     @staticmethod
     def get_endings() -> set:
         return {
-            'Всего доброго',
-            'До свидания',
-            'Еще раз поздравляю',
-            'Всех благ',
-            'Увидимся'
+            'Всего доброго!',
+            'До свидания.',
+            'Еще раз поздравляю.',
+            'Всех благ!',
+            'Увидимся.'
         }
 
 
-class BirthdayCongratsData(DefaultCongratsData):
+class CongratsDataDecorator(CongratsData):
+    _congrats_data: CongratsData = None
+
+    def __init__(self, congrats_data: CongratsData) -> None:
+        self._congrats_data = congrats_data
+
+    @property
+    def congrats_data(self) -> CongratsData:
+        return self._congrats_data
+
     def get_intros(self) -> set:
-        return {
+        return self._congrats_data.get_intros()
+
+    def get_enumerations(self) -> set:
+        return self._congrats_data.get_enumerations()
+
+    def get_prose(self) -> set:
+        return self._congrats_data.get_prose()
+
+    def get_endings(self) -> set:
+        return self._congrats_data.get_endings()
+
+
+class BirthdayCongratsDataDecorator(CongratsDataDecorator):
+    def get_intros(self) -> set:
+        return self._congrats_data.get_intros().union({
             'С днем рождения!',
             'От всей души поздравляю с днем рождения!',
             'Поздравляю с днем рождения!',
@@ -315,20 +297,28 @@ class BirthdayCongratsData(DefaultCongratsData):
             'Принимай поздравления с днём рождения!',
             'Поздравляю!',
             'Хочу пожелать тебе в этот день всего самого хорошего!',
-        }
+        })
+
+    def get_enumerations(self) -> set:
+        return self._congrats_data.get_enumerations()
+
+    def get_prose(self) -> set:
+        return self._congrats_data.get_prose()
+
+    def get_endings(self) -> set:
+        return self._congrats_data.get_endings()
+
+
+class Factory:
+    @abstractmethod
+    def create(self):
+        pass
+
+
+class CongratsDataFactory(Factory):
+    def create(self):
 
 
 # todo add implementation
 class TextGeneratorConfig:
     pass
-
-
-builder = BirthdayCongratsBuilder()
-director = CongratsBuilderDirector()
-director.builder = builder
-
-director.build_long_congrats()
-
-congratulation = builder.congratulation.list_parts()
-
-print(congratulation)
