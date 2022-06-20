@@ -1,7 +1,7 @@
 import logging
 
-from telegram import Update, ForceReply
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+from telegram import Update, ForceReply, InlineKeyboardButton
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext, ConversationHandler
 
 # Enable logging
 logging.basicConfig(
@@ -32,6 +32,15 @@ def echo(update: Update, context: CallbackContext) -> None:
     update.message.reply_text(update.message.text)
 
 
+def keyboard():
+    return [
+        [
+            InlineKeyboardButton("1", callback_data=str(1)),
+            InlineKeyboardButton("2", callback_data=str(2)),
+        ]
+    ]
+
+
 def main() -> None:
     """Start the bot."""
     # Create the Updater and pass it your bot's token.
@@ -39,6 +48,7 @@ def main() -> None:
 
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
+    print(type(dispatcher))
 
     # on different commands - answer in Telegram
     dispatcher.add_handler(CommandHandler("start", start))
