@@ -7,6 +7,7 @@ authors = ["Alexander Lubovsky <alexander.lubovsky@intexsoft.by>"]
 [tool.poetry.dependencies]
 python = "^3.10"
 python-telegram-bot = "^13.12"
+python-dotenv = "^0.20.0"
 
 [tool.poetry.dev-dependencies]
 
