@@ -1,10 +1,13 @@
 from telegram import Update, ForceReply
 from telegram.ext import CallbackContext
 
-import handler
+from .handler import Handler
 
 
-class StartCommandHandler(handler.Handler):
+class StartCommandHandler(Handler):
+    """
+    Handles '/start' command
+    """
 
     def handle(self, update: Update, context: CallbackContext):
         """Send a message when the command /start is issued."""
