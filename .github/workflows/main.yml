@@ -17,6 +17,5 @@ jobs:
           heroku_app_name: "congrats-generator-bot"
           heroku_email: "xenx.efy@gmail.com"
           buildpack: "https://github.com/moneymeets/python-poetry-buildpack.git"
-          env_file: ".env"
         env:
           TELEGRAM_TOKEN: ${{secrets.TELEGRAM_TOKEN}}
