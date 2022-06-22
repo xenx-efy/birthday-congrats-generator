@@ -34,3 +34,6 @@ Start the bot:
 ```shell
 python3 bot.py
 ```
+
+## Features
+- echo bot
