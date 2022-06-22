@@ -1,3 +1,5 @@
+import os
+
 from telegram.ext import Updater
 
 # from handler_router import HandlerRouter
@@ -6,8 +8,10 @@ from .handler_router import HandlerRouter
 
 def start():
     """Start the bot."""
+
     # Create the Updater and pass it your bot's token.
-    updater = Updater("5413064554:AAG0ATotIPk06T9M9_DtG8v3DL462Vx0rD4")
+    telegram_token = os.getenv('TELEGRAM_TOKEN')
+    updater = Updater(telegram_token)
 
     HandlerRouter.route(updater.dispatcher)
 
