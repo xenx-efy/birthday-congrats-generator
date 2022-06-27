@@ -14,6 +14,7 @@ in [BotFather](https://telegram.me/BotFather).
 Run `poetry install`.
 
 ## Deployment
+
 > You can only run one bot per hash
 
 ### Locally
@@ -21,6 +22,8 @@ Run `poetry install`.
 Just run `python main.py`
 
 ### Server
+> I use heroku autodeploy on heroku's side, and don't responsible for efficiency
+
 [Guide](https://github.com/python-telegram-bot/v13.x-wiki/wiki/Hosting-your-bot)
 
 Create a new screen and attach to it:
@@ -36,4 +39,17 @@ python3 bot.py
 ```
 
 ## Features
-- echo bot
+
+### Echo
+
+Repeats every phrase what you send in chat.
+
+## Commands
+
+### `/birthday`
+
+Generates birthday congratulation with introduction, body and ending.
+
+### `/shot`
+
+Generates short wish phrase like "хорошего настроения".
