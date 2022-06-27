@@ -13,8 +13,8 @@ class CongratsBuilderDirector:
     def builder(self, builder: CongratsBuilder) -> None:
         self._builder = builder
 
-    def build_short_congrats(self):
-        pass
+    def build_shot_congrats(self):
+        self.builder.generate_enumeration(None)
 
     def build_long_congrats(self):
         self.builder.generate_intro(None)
