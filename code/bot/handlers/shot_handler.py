@@ -2,18 +2,19 @@ from telegram import Update
 from telegram.ext import CallbackContext
 
 from .handler import Handler
-from ...congrats_generator.builder.birthday_congrats_builder import BirthdayCongratsBuilder
+from ...congrats_generator.builder.shot_builder import ShotCongratsBuilder
 from ...congrats_generator.director.congrats_builder_director import CongratsBuilderDirector
 
 
-class BirthdayCongratsHandler(Handler):
+class ShotCongratsHandler(Handler):
 
     def handle(self, update: Update, context: CallbackContext):
-        builder = BirthdayCongratsBuilder()
+        builder = ShotCongratsBuilder()
+
         director = CongratsBuilderDirector()
         director.builder = builder
 
-        director.build_long_congrats()
+        director.build_shot_congrats()
 
         congratulation = builder.congratulation.list_parts()
 
