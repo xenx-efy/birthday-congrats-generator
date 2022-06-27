@@ -14,7 +14,6 @@ class DefaultCongratsData(CongratsData):
     def get_wishes_intros() -> set:
         return {
             'В этот прекрасный день хочется пожелать',
-            'Пусть',
             'Пускай жизнь будет полна',
             'Желаю',
             'Я желаю тебе',
