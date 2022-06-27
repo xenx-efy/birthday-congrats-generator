@@ -2,7 +2,8 @@ from telegram import Update
 from telegram.ext import CallbackContext
 
 from .handler import Handler
-from ...congrats_generator.congrats_generator import BirthdayCongratsBuilder, CongratsBuilderDirector
+from ...congrats_generator.director.birthday_congrats_builder import BirthdayCongratsBuilder
+from ...congrats_generator.director.congrats_builder_director import CongratsBuilderDirector
 
 
 class BirthdayCongratsHandler(Handler):
