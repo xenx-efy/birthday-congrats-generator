@@ -1,7 +1,7 @@
 import random
 
 from ..builder.congrats_builder import CongratsBuilder
-from ..congrats_generator import Congratulation
+from ..model.congratulation import Congratulation
 from ..data.birthday_congrats_data import BirthdayCongratsData
 
 
