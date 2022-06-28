@@ -1,0 +1,19 @@
+{
+  "include": [
+    "code"
+  ],
+  "exclude": [
+    "**/__pycache__",
+    "**/.nox",
+    "**/.pytest_cache",
+    "**/.git",
+    "**/site-packages"
+  ],
+  "verboseOutput": true,
+  "reportMissingImports": true,
+  "reportMissingTypeStubs": false,
+  "pythonVersion": "3.10",
+  "pythonPlatform": "All",
+  "useLibraryCodeForTypes": false,
+  "stubPath": ""
+}

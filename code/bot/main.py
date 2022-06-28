@@ -10,8 +10,8 @@ def start():
     """Start the bot."""
 
     # Create the Updater and pass it your bot's token.
-    telegram_token = os.getenv('TELEGRAM_TOKEN')
-    updater = Updater(telegram_token)
+    telegram_token = os.getenv("TELEGRAM_TOKEN")
+    updater = Updater(token=telegram_token if telegram_token else "")
 
     HandlerRouter.route(updater.dispatcher)
 
