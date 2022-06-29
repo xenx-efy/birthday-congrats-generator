@@ -6,4 +6,4 @@ class Congratulation:
         self.parts.append(part)
 
     def list_parts(self) -> str:
-        return '\n'.join(self.parts)
+        return "\n".join(self.parts)

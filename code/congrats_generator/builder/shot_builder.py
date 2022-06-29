@@ -1,9 +1,9 @@
 import random
 from typing import Any
 
-from .congrats_builder import CongratsBuilder
 from ..data.default_congrats_data import DefaultCongratsData
 from ..model.congratulation import Congratulation
+from .congrats_builder import CongratsBuilder
 
 
 class ShotCongratsBuilder(CongratsBuilder):
@@ -16,10 +16,12 @@ class ShotCongratsBuilder(CongratsBuilder):
         self._congratulation = Congratulation()
 
     @property
-    def congratulation(self) -> Congratulation:
+    def congratulation(self) -> Congratulation | None:
         return self._congratulation
 
     def generate_enumeration(self, generator_config: Any) -> None:
         enums = self._data.get_enumerations()
         shot = random.choice([*enums])
-        self._congratulation.add(shot)
+
+        if self._congratulation is not None:
+            self._congratulation.add(shot)

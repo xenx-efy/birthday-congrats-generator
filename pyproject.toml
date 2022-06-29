@@ -8,6 +8,12 @@ authors = ["Alexander Lubovsky <alexander.lubovsky@intexsoft.by>"]
 python = "3.10.5"
 python-telegram-bot = "^13.12"
 python-dotenv = "^0.20.0"
+flake8 = "^4.0.1"
+black = "^22.3.0"
+isort = "^5.10.1"
+pre-commit = "^2.19.0"
+autoflake = "^1.4"
+pyright = "^1.1.255"
 
 [tool.poetry.dev-dependencies]
 

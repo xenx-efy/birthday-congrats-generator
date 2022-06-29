@@ -6,7 +6,7 @@ class CongratsBuilderDirector:
         self._builder = None
 
     @property
-    def builder(self) -> CongratsBuilder:
+    def builder(self) -> CongratsBuilder | None:
         return self._builder
 
     @builder.setter
@@ -14,10 +14,12 @@ class CongratsBuilderDirector:
         self._builder = builder
 
     def build_shot_congrats(self):
-        self.builder.generate_enumeration(None)
+        if self.builder is not None:
+            self.builder.generate_enumeration(None)
 
     def build_long_congrats(self):
-        self.builder.generate_intro(None)
-        self.builder.generate_enumeration(None)
-        self.builder.generate_prose(None)
-        self.builder.generate_ending(None)
+        if self.builder is not None:
+            self.builder.generate_intro(None)
+            self.builder.generate_enumeration(None)
+            self.builder.generate_prose(None)
+            self.builder.generate_ending(None)

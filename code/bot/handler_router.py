@@ -1,5 +1,5 @@
 import telegram.ext
-from telegram.ext import CommandHandler, MessageHandler, Filters
+from telegram.ext import CommandHandler, Filters, MessageHandler
 
 from .handlers.birthday_congrats_handler import BirthdayCongratsHandler
 from .handlers.echo_handler import EchoHandler

@@ -3,21 +3,21 @@ from ..meta.singleton import SingletonMeta
 
 class CongratsData(metaclass=SingletonMeta):
     @staticmethod
-    def get_intros() -> set:
+    def get_intros():
         pass
 
     @staticmethod
-    def get_wishes_intros() -> set:
+    def get_wishes_intros():
         pass
 
     @staticmethod
-    def get_enumerations() -> set:
+    def get_enumerations():
         pass
 
     @staticmethod
-    def get_prose() -> set:
+    def get_prose():
         pass
 
     @staticmethod
-    def get_endings() -> set:
+    def get_endings():
         pass
