@@ -6,5 +6,5 @@ from telegram.ext import CallbackContext
 
 class Handler(ABC):
     @abstractmethod
-    def handle(self, update: Update, context: CallbackContext):
+    async def handle(self, update: Update, context: CallbackContext):
         pass

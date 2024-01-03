@@ -1,6 +1,6 @@
 import logging
-import code.bot.main
 import dotenv
+import code.bot.main
 
 dotenv.load_dotenv()
 
@@ -10,20 +10,5 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-
-# def keyboard():
-#     return [
-#         [
-#             InlineKeyboardButton("1", callback_data=str(1)),
-#             InlineKeyboardButton("2", callback_data=str(2)),
-#         ]
-#     ]
-
-
-def main() -> None:
-    code.bot.main.start()
-    pass
-
-
 if __name__ == '__main__':
-    main()
+    code.bot.main.start()

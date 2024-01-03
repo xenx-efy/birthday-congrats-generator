@@ -9,9 +9,9 @@ class StartCommandHandler(Handler):
     Handles '/start' command
     """
 
-    def handle(self, update: Update, context: CallbackContext):
+    async def handle(self, update: Update, context: CallbackContext):
         """Send a message when the command /start is issued."""
         user = update.effective_user
-        update.message.reply_markdown_v2(
+        await update.message.reply_markdown_v2(
             fr'Hi {user.mention_markdown_v2()}\!'
         )

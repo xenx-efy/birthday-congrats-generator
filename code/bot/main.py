@@ -1,24 +1,22 @@
 import os
 
-from telegram.ext import Updater
+from telegram.ext import ApplicationBuilder, CommandHandler
 
-# from handler_router import HandlerRouter
-from .handler_router import HandlerRouter
+from .handlers.birthday_congrats_handler import BirthdayCongratsHandler
+from .handlers.shot_handler import ShotCongratsHandler
+from .handlers.start_command_handler import StartCommandHandler
 
 
 def start():
     """Start the bot."""
 
-    # Create the Updater and pass it your bot's token.
     telegram_token = os.getenv('TELEGRAM_TOKEN')
-    updater = Updater(telegram_token)
+    application = ApplicationBuilder().token(telegram_token).build()
 
-    HandlerRouter.route(updater.dispatcher)
+    handlers = [CommandHandler('start', StartCommandHandler().handle),
+                CommandHandler('birthday', BirthdayCongratsHandler().handle),
+                CommandHandler('shot', ShotCongratsHandler().handle)]
 
-    # Start the Bot
-    updater.start_polling()
+    application.add_handlers(handlers)
 
-    # Run the bot until you press Ctrl-C or the process receives SIGINT,
-    # SIGTERM or SIGABRT. This should be used most of the time, since
-    # start_polling() is non-blocking and will stop the bot gracefully.
-    updater.idle()
+    application.run_polling()
