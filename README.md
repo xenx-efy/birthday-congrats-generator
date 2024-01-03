@@ -1,26 +1,15 @@
-# Birthday Congrats Generator
+# Congrats Generator
+Генерирует поздравления с днём рождения.
 
-Generates birthday congrats example and put it into clipboard
-
-## Requirements
-
+## Требования
 - [Poetry](https://python-poetry.org/)
 
-## Installation
+## Установка
+1. Скопировать `.env.example` файл и переименовать в `.env`;
+2. Заполнить параметр `TELEGRAM_TOKEN`. Получить его можно в [BotFather](https://telegram.me/BotFather);
+3. Запустить установку зависимостей `poetry install`.
 
-Copy `.env.example` file as `.env` and put to it telegram token what you can receive
-in [BotFather](https://telegram.me/BotFather).
-
-Run `poetry install`.
-
-## Deployment
-> You can only run one bot per hash
-
-### Locally
-
-Just run `python main.py`
-
-### Server
+### Deploy
 [Guide](https://github.com/python-telegram-bot/v13.x-wiki/wiki/Hosting-your-bot)
 
 Create a new screen and attach to it:
@@ -34,6 +23,3 @@ Start the bot:
 ```shell
 python3 bot.py
 ```
-
-## Features
-- echo bot
