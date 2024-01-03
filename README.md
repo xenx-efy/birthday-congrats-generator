@@ -10,7 +10,7 @@
 3. Запустить установку зависимостей `poetry install`.
 
 ### Deploy
-[Guide](https://github.com/python-telegram-bot/v13.x-wiki/wiki/Hosting-your-bot)
+[How to host bot](https://github.com/python-telegram-bot/python-telegram-bot/wiki/Hosting-your-bot)
 
 Create a new screen and attach to it:
 

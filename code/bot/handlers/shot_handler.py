@@ -8,7 +8,7 @@ from ...congrats_generator.director.congrats_builder_director import CongratsBui
 
 class ShotCongratsHandler(Handler):
 
-    def handle(self, update: Update, context: CallbackContext):
+    async def handle(self, update: Update, context: CallbackContext):
         builder = ShotCongratsBuilder()
 
         director = CongratsBuilderDirector()
@@ -18,4 +18,4 @@ class ShotCongratsHandler(Handler):
 
         congratulation = builder.congratulation.list_parts()
 
-        update.message.reply_text(congratulation)
+        await update.message.reply_text(congratulation)
